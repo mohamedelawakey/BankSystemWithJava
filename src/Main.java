@@ -283,6 +283,14 @@ public class Main {
                                 break;
                             }
 
+                            System.out.print("Enter Your Password: ");
+                            String password = scanner.nextLine();
+
+                            if (!customer.getPassWord().equals(password)) {
+                                System.out.println("Incorrect password.\n");
+                                break;
+                            }
+
                             System.out.print("Enter deposit amount: ");
                             double amount = Double.parseDouble(scanner.nextLine());
                             customer.deposit(amount);
@@ -304,6 +312,14 @@ public class Main {
 
                             if (customer == null) {
                                 System.out.println("Customer not found.\n");
+                                break;
+                            }
+
+                            System.out.print("Enter Your Password: ");
+                            String password = scanner.nextLine();
+
+                            if (!customer.getPassWord().equals(password)) {
+                                System.out.println("Incorrect password.\n");
                                 break;
                             }
 
