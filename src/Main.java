@@ -154,6 +154,29 @@ public class Main {
             this.balance -= amount;
         }
 
+        public static Customer login() {
+            while (true) {
+                System.out.print("Enter Your Email: ");
+                String mail = scanner.nextLine();
+                Customer customer = searchCustomer(mail);
+
+                if (customer != null) {
+                    System.out.print("Enter Your Password: ");
+                    String password = scanner.nextLine();
+
+                    if (customer.getPassWord().equals(password)) {
+                        System.out.println("Login successful!\n");
+                        return customer;
+                    } else {
+                        System.out.println("Incorrect password.\n");
+                    }
+                } else {
+                    System.out.println("Customer not found.\n");
+                }
+                return null;
+            }
+        }
+
         public static Customer createAccount() {
             System.out.println("--- Create New Account ---\n");
             Customer customer = new Customer();
@@ -263,8 +286,9 @@ public class Main {
                     if (customers.isEmpty()) {
                         System.out.println("No accounts found.\n");
                     } else {
-                        for (Customer cust : customers) {
-                            System.out.println(cust.getName() + " - Balance: " + cust.getBalance());
+                        Customer loggedInUser = Customer.login();
+                        if (loggedInUser != null) {
+                            System.out.println(loggedInUser.getName() + " - Balance: " + loggedInUser.getBalance());
                         }
                     }
                     break;
@@ -273,28 +297,13 @@ public class Main {
                         System.out.println("No accounts found.\n");
                     } else {
                         try {
-                            System.out.print("Enter Your Email: ");
-                            String mail = scanner.nextLine();
-
-                            Customer customer = searchCustomer(mail);
-
-                            if (customer == null) {
-                                System.out.println("Customer not found.\n");
-                                break;
+                            Customer loggedInUser = Customer.login();
+                            if (loggedInUser != null) {
+                                System.out.print("Enter deposit amount: ");
+                                double amount = Double.parseDouble(scanner.nextLine());
+                                loggedInUser.deposit(amount);
+                                System.out.println("Deposit successful! New balance: " + loggedInUser.getBalance());
                             }
-
-                            System.out.print("Enter Your Password: ");
-                            String password = scanner.nextLine();
-
-                            if (!customer.getPassWord().equals(password)) {
-                                System.out.println("Incorrect password.\n");
-                                break;
-                            }
-
-                            System.out.print("Enter deposit amount: ");
-                            double amount = Double.parseDouble(scanner.nextLine());
-                            customer.deposit(amount);
-                            System.out.println("Deposit successful! New balance: " + customer.getBalance());
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -305,28 +314,14 @@ public class Main {
                         System.out.println("No accounts found.\n");
                     } else {
                         try {
-                            System.out.print("Enter Your Email: ");
-                            String mail = scanner.nextLine();
-
-                            Customer customer = searchCustomer(mail);
-
-                            if (customer == null) {
-                                System.out.println("Customer not found.\n");
-                                break;
+                            Customer loggedInUser = Customer.login();
+                            if (loggedInUser != null) {
+                                System.out.print("Enter Withdraw amount: ");
+                                double amount = Double.parseDouble(scanner.nextLine());
+                                loggedInUser.withdraw(amount);
+                                System.out.println(
+                                        "Withdrawal successful! Remaining balance: " + loggedInUser.getBalance());
                             }
-
-                            System.out.print("Enter Your Password: ");
-                            String password = scanner.nextLine();
-
-                            if (!customer.getPassWord().equals(password)) {
-                                System.out.println("Incorrect password.\n");
-                                break;
-                            }
-
-                            System.out.print("Enter Withdraw amount: ");
-                            double amount = Double.parseDouble(scanner.nextLine());
-                            customer.withdraw(amount);
-                            System.out.println("Withdrawal successful! Remaining balance: " + customer.getBalance());
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
