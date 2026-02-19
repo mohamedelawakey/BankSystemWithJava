@@ -172,6 +172,11 @@ public class Main {
                 try {
                     System.out.print("Enter Mail: ");
                     customer.setMail(scanner.nextLine());
+
+                    if (searchCustomer(customer.getMail()) != null) {
+                        throw new IllegalArgumentException("Mail already exists\n");
+                    }
+
                     break;
                 } catch (IllegalArgumentException e) {
                     System.err.println(e.getMessage() + ". Try again.\n");
@@ -193,8 +198,10 @@ public class Main {
                     System.out.print("Enter Age: ");
                     customer.setAge(Integer.parseInt(scanner.nextLine()));
                     break;
-                } catch (Exception e) {
-                    System.out.println("Invalid age. Try again.\n");
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid input. Please enter a number.\n");
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage() + ". Try again.\n");
                 }
             }
 
@@ -203,8 +210,10 @@ public class Main {
                     System.out.print("Enter Balance: ");
                     customer.setBalance(Double.parseDouble(scanner.nextLine()));
                     break;
-                } catch (Exception e) {
-                    System.out.println("Invalid balance. Try again.\n");
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid input. Please enter a number.\n");
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage() + ". Try again.\n");
                 }
             }
 
@@ -299,7 +308,7 @@ public class Main {
                             }
 
                             System.out.print("Enter Withdraw amount: ");
-                            Double amount = Double.parseDouble(scanner.nextLine());
+                            double amount = Double.parseDouble(scanner.nextLine());
                             customer.withdraw(amount);
                             System.out.println("Withdrawal successful! Remaining balance: " + customer.getBalance());
                         } catch (Exception e) {
